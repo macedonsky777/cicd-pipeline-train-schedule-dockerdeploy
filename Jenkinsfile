@@ -41,7 +41,7 @@ pipeline {
             steps {
                 input 'Deploy to Production?!'
                 milestone(1)
-                withCredentials([sshUserPrivateKey(credentialsId: "webserver_login", keyFileVariable: 'keyfile')]) {            
+                sshagent(credentials: ['webserver_login']) {          
                     script {
                         sh "ssh -o StrictHostKeyChecking=no $prod_ip \"docker pull willbla/train-schedule:${env.BUILD_NUMBER}\""
                         try {
