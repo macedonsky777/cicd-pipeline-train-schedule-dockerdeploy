@@ -43,7 +43,7 @@ pipeline {
                 milestone(1)
                 sshagent(credentials: ['webserver_login']) {          
                     script {
-                        sh "ssh -t -t -o StrictHostKeyChecking=no $prod_ip /"docker pull 777777777777777/train-schedule:${env.BUILD_NUMBER/}""}
+                        sh "ssh -t -t -o StrictHostKeyChecking=no $prod_ip \"docker pull 777777777777777/train-schedule:${env.BUILD_NUMBER\}""
                         try {
                             sh "ssh -t -t -o StrictHostKeyChecking=no $prod_ip "docker stop train-schedule""
                             sh "ssh -t -t -o StrictHostKeyChecking=no $prod_ip "docker rm train-schedule""
