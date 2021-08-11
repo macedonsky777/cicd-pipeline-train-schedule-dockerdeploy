@@ -43,14 +43,14 @@ pipeline {
                 milestone(1)
                 withCredentials([sshUserPrivateKey(credentialsId: "webserver_login", keyFileVariable: 'keyfile')]) {            
                     script {
-                        sh "sudo ssh -i .ssh/ec2 -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker pull willbla/train-schedule:${env.BUILD_NUMBER}\""
+                        sh "ssh -o StrictHostKeyChecking=no $prod_ip \"docker pull willbla/train-schedule:${env.BUILD_NUMBER}\""
                         try {
-                            sh "sudo ssh -i .ssh/ec2 -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker stop train-schedule\""
-                            sh "sudo ssh -i .ssh/ec2ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker rm train-schedule\""
+                            sh "ssh -o StrictHostKeyChecking=no $prod_ip \"docker stop train-schedule\""
+                            sh "ssh -o StrictHostKeyChecking=no $prod_ip \"docker rm train-schedule\""
                         } catch (err) {
                             echo: 'caught error: $err'
                         }
-                        sh "sudo ssh -i .ssh/ec2 -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker run --restart always --name train-schedule -p 8080:8080 -d 777777777777777/train-schedule:${env.BUILD_NUMBER}\""
+                        sh "ssh -o StrictHostKeyChecking=no $prod_ip \"docker run --restart always --name train-schedule -p 8080:8080 -d 777777777777777/train-schedule:${env.BUILD_NUMBER}\""
                     }
                 }
             }
